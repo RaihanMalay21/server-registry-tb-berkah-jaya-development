@@ -1,4 +1,4 @@
-package template
+package controller
 
 import (
     "html/template"
@@ -7,7 +7,7 @@ import (
 )
 
 func PageResetPassword(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("resetPassword.html")
+	tmpl, err := template.ParseFiles("C:\\Users\\raiha\\Documents\\development web berkah jaya\\server-registration-tb-berkah-jaya\\template\\resetPassword.html")
 	if err != nil {
 		log.Println("Error Cant parse Files html:", err.Error())
 		return

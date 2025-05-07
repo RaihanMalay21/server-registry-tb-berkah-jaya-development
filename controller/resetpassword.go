@@ -9,7 +9,7 @@ import (
     "github.com/golang-jwt/jwt/v5"
     config "github.com/RaihanMalay21/config-tb-berkah-jaya-development"
     models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-    middlewares "github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya"
+    "github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/middlewares"
 )
 
 func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
@@ -22,30 +22,37 @@ func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
 		PasswordRepeat string
 		NotMatched string
 		Token string
+		TokenInvalid string
+		TokenExp string
 		Error interface{}
+		MessageSuccess string
 	}
 
-	dataMessage := DataMessage{
+	dataMessage := &DataMessage{
 		Password: password, 
 		PasswordRepeat: passwordRepeat, 
 		Token: token,
 	}
 
-	tmpl, err := template.ParseFiles("././template/resetPassword.html")
+	tmpl, err := template.ParseFiles("C:\\Users\\raiha\\Documents\\development web berkah jaya\\server-registration-tb-berkah-jaya\\template\\resetPassword.html")
 	if err != nil {
 		log.Println("Error cant parse file template html :", err.Error())
 		return
 	}
+
+	// message := map[string]interface{}{
+	// 	"message": nil
+	// }
 
 	email, err := middlewares.VerifyResetToken(token)
 	if err != nil {
 		switch err {
 		case jwt.ErrTokenSignatureInvalid:
 			log.Println("Error Token signature invalid function ForgotPasswordChangePassword:", err)
-			dataMessage.Error = "Token Tidak Valid"
+			dataMessage.TokenInvalid = "Token Tidak Valid"
 		case jwt.ErrTokenExpired:
 			log.Println("Error token has expired:", err)
-			dataMessage.Error = "Token Telah Habis Waktunya"
+			dataMessage.TokenExp = "Token Telah expired"
 		default:
 			log.Println("Error Cant verify Token In Function ForgotPasswordChangePassword:", err)
 			dataMessage.Error = err.Error()
@@ -60,7 +67,7 @@ func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
 
 	if password != passwordRepeat {
 		log.Println("Password not match bettwen password and passwordRepeat funtion forgotPasswordChangePassword")
-		dataMessage.NotMatched = "Password Tidak Sesuai"
+		dataMessage.NotMatched = "kedua Password Tidak Sesuai"
 		dataMessage.PasswordRepeat = ""
 
 		if err := tmpl.Execute(w, dataMessage); err != nil {
@@ -87,8 +94,8 @@ func ForgotPasswordChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	message := map[string]string{"message": "Berhasil Reset Password, Silahkan Login"}
-	if err := tmpl.Execute(w, message); err != nil {
+	dataMessage.MessageSuccess = "Berhasil Reset Password, Silahkan Login"
+	if err := tmpl.Execute(w, dataMessage); err != nil {
 		log.Println("Error Cant execute template html:", err.Error())
 	}
 }

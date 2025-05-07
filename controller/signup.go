@@ -26,8 +26,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	} 
 
-	log.Println("UserSignup data:", UserSignup)
-
 	// inalisasi validate 
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	trans := helper.TranslatorIDN()

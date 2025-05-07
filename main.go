@@ -3,12 +3,11 @@ package main
 import (
 	"github.com/gorilla/mux"
 	// "github.com/gorilla/handlers"
-	"net/http"
 	"log"
+	"net/http"
 
-	"github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/controller"
-	"github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/controller/template"
 	config "github.com/RaihanMalay21/config-tb-berkah-jaya-development"
+	"github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/controller"
 )
 
 func main() {
@@ -18,13 +17,13 @@ func main() {
 	// r.Use(corsMiddlewares)
 	api := r.PathPrefix("/berkahjaya").Subrouter()
 	api.HandleFunc("/login", controller.Login).Methods("POST", "OPTIONS")
-	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS") 
+	api.HandleFunc("/signup", controller.SignUp).Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", controller.LogOut).Methods("GET", "OPTIONS")
 	// r.HandleFunc("/get/hadiah", controller.Hadiah).Methods("GET")
 	api.HandleFunc("/forgot/password", controller.ForgotPassword).Methods("POST", "OPTIONS")
-	api.HandleFunc("/forgot/password/reset", template.PageResetPassword).Methods("GET", "OPTIONS")
+	api.HandleFunc("/forgot/password/reset", controller.PageResetPassword).Methods("GET", "OPTIONS")
 	api.HandleFunc("/forgot/password/reset", controller.ForgotPasswordChangePassword).Methods("POST", "OPTIONS")
-	
+
 	// corsHandler := handlers.CORS(
 	// 	handlers.AllowedOrigins([]string{"https://fe-tb-berkah-jaya-igcfjdj5fa-uc.a.run.app"}),
 	// 	handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
@@ -32,6 +31,7 @@ func main() {
 	// 	handlers.AllowCredentials(),
 	// )
 
+	log.Println("Server started on: http://localhost:8082")
 	log.Fatal(http.ListenAndServe(":8082", r))
 }
 

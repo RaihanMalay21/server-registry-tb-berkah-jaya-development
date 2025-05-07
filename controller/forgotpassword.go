@@ -11,7 +11,7 @@ import (
     "github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/helper"
     config "github.com/RaihanMalay21/config-tb-berkah-jaya-development"
     models "github.com/RaihanMalay21/models_TB_Berkah_Jaya"
-    middlewares "github.com/RaihanMalay21/middlewares_TB_Berkah_Jaya"
+    "github.com/RaihanMalay21/server-registry-tb-berkah-jaya-development/middlewares"
 )
 
 func ForgotPassword(w http.ResponseWriter, r *http.Request) {

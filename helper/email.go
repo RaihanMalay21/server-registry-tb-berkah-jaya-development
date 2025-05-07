@@ -37,7 +37,7 @@ func SendEmail(userEmail, userName, hadiahORTokenORKeterangannota, typeSend, ima
 	} else if typeSend == "ForgotPassword" {
 		subject = "Ganti Password"
 		body = "Dear " + userName + "\r\n" +
-			"Please click http://localhost:8082/forgot/password/reset?token=" + hadiahORTokenORKeterangannota + " to reset your password."
+			"Please click http://localhost:8080/access/berkahjaya/forgot/password/reset?token=" + hadiahORTokenORKeterangannota + " to reset your password."
 	} else if typeSend == "NotaCancel" {
 		subject = "Pemberitahuan: Nota Tidak Valid"
 		mime = "MIME-version: 1.0;\r\nContent-Type: multipart/mixed; boundary=BOUNDARY\r\n\r\n"

@@ -41,7 +41,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			switch err {
 			case gorm.ErrRecordNotFound:
 				log.Println("Admin username tidak ditemukan:", err)
-				msg := map[string]string{"message": "Username Tidak di Temukan"}
+				msg := map[string]string{"messageUsername": "Username Tidak di Temukan"}
 				helper.Response(w, msg, http.StatusBadRequest)
 				return
 			default:
@@ -56,7 +56,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			switch err {
 			case bcrypt.ErrMismatchedHashAndPassword:
 				log.Println("Password mismatch:", err)
-				msg := map[string]string{"message": "Password Salah"}
+				msg := map[string]string{"messagePassword": "Password Salah"}
 				helper.Response(w, msg, http.StatusBadRequest)
 				return
 			default:
@@ -118,13 +118,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// auhentikasi apakah email 
 	var fieldColumn string
+	var fieldError string
 	usernameORemail, ok := Userlogin["usernameORemail"]
 	if ok && usernameORemail != "" {
 
 		if strings.Contains(usernameORemail, "@") {
 			fieldColumn = "email"
+			fieldError = "Email"
 		} else {
 			fieldColumn = "user_name"
+			fieldError = "Username"
 		}
 
 	} 
@@ -140,7 +143,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			log.Println("User username tidak ditemukan:", err)
-			msg := map[string]string{"message": "Username Tidak di Temukan"}
+			msg := map[string]string{"messageUsername":  fieldError + "Tidak di Temukan"}
 			helper.Response(w, msg, http.StatusBadRequest)
 			return
 		default:
@@ -155,7 +158,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		switch err {
 		case bcrypt.ErrMismatchedHashAndPassword:
 			log.Println("Password mismatch:", err)
-			msg := map[string]string{"message": "Password Salah"}
+			msg := map[string]string{"messagePassword": "Password Salah"}
 			helper.Response(w, msg, http.StatusBadRequest)
 			return
 		default:
